@@ -10,7 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@highcharts/map-collection": "^2.3.0",
     "convert-csv-to-json": "^2.50.0",
+    "fs": "^0.0.1-security",
+    "highcharts": "^12.1.2",
+    "highcharts-react-official": "^3.2.1",
+    "papaparse": "^5.5.2",
+    "path": "^0.12.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
