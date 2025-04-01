@@ -23,7 +23,11 @@ export default function ScatterplotChart({ data }) {
 
   // Transform into array of formatted object for chart input
   const chartData = Object.entries(aggByCountry).map(([key, value]) => {
-    return { x: value.avg_rating, y: value.count, label: key };
+    return {
+      x: Math.round(value.avg_rating * 100) / 100,
+      y: value.count,
+      label: key,
+    };
   });
 
   const options = {
@@ -46,7 +50,7 @@ export default function ScatterplotChart({ data }) {
     tooltip: {
       headerFormat: "",
       pointFormat:
-        "<b>{point.label}</b>:<br/>Count: {point.x}<br/>Avg Rating: {point.y}",
+        "<b>{point.label}</b>:<br/>Avg Rating: {point.x}<br/>Count: {point.y}",
     },
     title: {
       text: "Ramen Count vs Avg Ramen Rating",
