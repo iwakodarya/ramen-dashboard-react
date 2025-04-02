@@ -5,7 +5,7 @@ export default function ScatterplotRatingVsCount({ data }) {
   // Transform into array of formatted object for chart input
   const chartData = Object.entries(data).map(([key, value]) => {
     return {
-      x: Math.round(value.avg_rating * 100) / 100,
+      x: Math.round(value.avg_rating * 10) / 10,
       y: value.count,
       label: key,
     };

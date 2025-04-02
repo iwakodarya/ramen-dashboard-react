@@ -7,7 +7,7 @@ export default function BarchartRatingByCountry({ data }) {
     .map(([key, value]) => {
       return {
         name: key,
-        y: Math.round(value.avg_rating * 100) / 100,
+        y: Math.round(value.avg_rating * 10) / 10,
       };
     })
     .sort((a, b) => b.y - a.y);
@@ -17,6 +17,18 @@ export default function BarchartRatingByCountry({ data }) {
   const options = {
     chart: {
       type: "bar",
+    },
+    plotOptions: {
+      bar: {
+        dataLabels: {
+          enabled: true, // Enable data labels
+          format: "{y}", // Show just the y value (rating)
+          align: "left", // Align to right inside the bar
+          style: {
+            fontWeight: "bold",
+          },
+        },
+      },
     },
     tooltip: {
       headerFormat: "",
