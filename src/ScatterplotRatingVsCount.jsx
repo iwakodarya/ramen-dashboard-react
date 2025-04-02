@@ -1,28 +1,9 @@
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
-export default function ScatterplotChart({ data }) {
-  const aggByCountry = data.reduce((acc, next) => {
-    if (next.Country in acc) {
-      acc[next.Country].count += 1;
-      acc[next.Country].rating_sum += next.Stars;
-    } else {
-      acc[next.Country] = {
-        count: 1,
-        rating_sum: next.Stars,
-      };
-    }
-    return acc;
-  }, {});
-
-  // Calculate avg_rating
-  Object.keys(aggByCountry).forEach((country) => {
-    aggByCountry[country].avg_rating =
-      aggByCountry[country].rating_sum / aggByCountry[country].count;
-  });
-
+export default function ScatterplotRatingVsCount({ data }) {
   // Transform into array of formatted object for chart input
-  const chartData = Object.entries(aggByCountry).map(([key, value]) => {
+  const chartData = Object.entries(data).map(([key, value]) => {
     return {
       x: Math.round(value.avg_rating * 100) / 100,
       y: value.count,
@@ -75,6 +56,7 @@ export default function ScatterplotChart({ data }) {
           symbol: "diamond",
         },
         data: chartData,
+        color: "#895129",
       },
     ],
   };

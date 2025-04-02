@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import MapChart from "./MapChart";
-import ScatterplotChart from "./ScatterplotChart";
+import ScatterplotRatingVsCount from "./ScatterplotRatingVsCount";
+import BarchartRatingByCountry from "./BarchartRatingByCountry";
 import "./App.css";
 import raw_data from "./ramen-ratings.json";
 
@@ -30,10 +31,32 @@ function App() {
     setData(filteredData);
   }, []);
 
+  const aggByCountry = data.reduce((acc, next) => {
+    if (next.Country in acc) {
+      acc[next.Country].count += 1;
+      acc[next.Country].rating_sum += next.Stars;
+    } else {
+      acc[next.Country] = {
+        count: 1,
+        rating_sum: next.Stars,
+      };
+    }
+    return acc;
+  }, {});
+
+  // Calculate avg_rating
+  Object.keys(aggByCountry).forEach((country) => {
+    aggByCountry[country].avg_rating =
+      aggByCountry[country].rating_sum / aggByCountry[country].count;
+  });
+
+  console.log(aggByCountry);
+
   return (
     <>
-      <MapChart data={data} />
-      <ScatterplotChart data={data} />
+      <MapChart data={aggByCountry} />
+      <ScatterplotRatingVsCount data={aggByCountry} />
+      <BarchartRatingByCountry data={aggByCountry} />
     </>
   );
 }
