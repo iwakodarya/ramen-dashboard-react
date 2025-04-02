@@ -64,6 +64,7 @@ export default function ScatterplotChart({ data }) {
       title: {
         text: "Avg Rating",
       },
+      min: 0,
     },
     legend: {
       enabled: false,
