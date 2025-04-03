@@ -1,14 +1,70 @@
 #root {
-  max-width: 1280px;
+  width: 90%;
+  max-width: 1600px;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
+  margin-bottom: 100px;
 }
 
-#map-chart {
-  width: 100%;
+#main-container {
+  display: grid;
+  height: 960px;
+  grid-template: 75px 400px 300px auto / 500px 500px 500px;
+  gap: 10px 10px;
 }
 
-#scatterplot-chart {
+#header {
+  grid-area: 1 / 1 / span 1 / span 3;
+  text-align: left;
+}
+
+#map-chart-1 {
+  grid-area: 2 / 1 / span 2 / span 2;
+}
+
+#scatter-chart-1 {
+  grid-area: 4 / 1 / span 1 / span 1;
+}
+
+#bar-chart-1 {
+  grid-area: 4 / 2 / span 1 / span 1;
+}
+
+#hist-chart-1 {
+  grid-area: 2 / 3 / span 1 / span 1;
+}
+
+#table-1 {
+  grid-area: 3 / 3 / span 2 / span 1;
+  max-height: 100%;
+  overflow: auto;
+}
+
+.styled-table {
   width: 100%;
+  border-collapse: collapse; /* Ensures borders are not doubled */
+}
+
+.styled-table th,
+.styled-table td {
+  border: none;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.styled-table th {
+  background-color: #895129;
+  color: white;
+  font-weight: bold;
+  position: sticky; /* Makes the header sticky */
+  top: 0; /* Positions the header at the top */
+  z-index: 1; /* Ensures the header stays above the table rows when scrolling */
+}
+
+.styled-table tr:nth-child(even) {
+  background-color: #f2f2f2; /* Alternate row colors for better readability */
+}
+
+.styled-table tr:hover {
+  background-color: #ffbf00; /* Highlight row on hover */
 }

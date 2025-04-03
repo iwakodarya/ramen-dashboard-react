@@ -4,6 +4,8 @@ import ScatterplotRatingVsCount from "./ScatterplotRatingVsCount";
 import BarchartRatingByCountry from "./BarchartRatingByCountry";
 import "./App.css";
 import raw_data from "./ramen-ratings.json";
+import RatingsHistogram from "./RatingsHistogram";
+import DataTable from "./DataTable";
 
 function App() {
   const [data, setData] = useState([]);
@@ -50,14 +52,15 @@ function App() {
       aggByCountry[country].rating_sum / aggByCountry[country].count;
   });
 
-  console.log(aggByCountry);
-
   return (
-    <>
+    <div id="main-container">
+      <h2 id="header">Ramen Ratings Dashboard</h2>
       <MapChart data={aggByCountry} />
       <ScatterplotRatingVsCount data={aggByCountry} />
       <BarchartRatingByCountry data={aggByCountry} />
-    </>
+      <RatingsHistogram data={data} />
+      <DataTable data={data} />
+    </div>
   );
 }
 

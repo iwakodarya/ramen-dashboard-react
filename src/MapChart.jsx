@@ -27,6 +27,16 @@ export default function MapChart({ data }) {
       headerFormat: "",
       pointFormat: "<b>{point.key}</b>: {point.value}",
     },
+    mapNavigation: {
+      enabled: true,
+      buttonOptions: {
+        verticalAlign: "bottom",
+      },
+    },
+    mapView: {
+      zoom: 2,
+      center: [10, 58],
+    },
     series: [
       {
         mapData,
@@ -49,10 +59,12 @@ export default function MapChart({ data }) {
   };
 
   return (
-    <HighchartsReact
-      highcharts={Highcharts}
-      constructorType="mapChart"
-      options={options}
-    />
+    <div id="map-chart-1">
+      <HighchartsReact
+        highcharts={Highcharts}
+        constructorType="mapChart"
+        options={options}
+      />
+    </div>
   );
 }

@@ -12,8 +12,6 @@ export default function BarchartRatingByCountry({ data }) {
     })
     .sort((a, b) => b.y - a.y);
 
-  console.log(chartData);
-
   const options = {
     chart: {
       type: "bar",
@@ -60,9 +58,11 @@ export default function BarchartRatingByCountry({ data }) {
     ],
   };
   return (
-    <HighchartsReact
-      highcharts={Highcharts}
-      options={options}
-    ></HighchartsReact>
+    <div id="bar-chart-1">
+      <HighchartsReact
+        highcharts={Highcharts}
+        options={options}
+      ></HighchartsReact>
+    </div>
   );
 }

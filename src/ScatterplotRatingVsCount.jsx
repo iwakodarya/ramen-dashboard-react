@@ -62,9 +62,11 @@ export default function ScatterplotRatingVsCount({ data }) {
   };
 
   return (
-    <HighchartsReact
-      highcharts={Highcharts}
-      options={options}
-    ></HighchartsReact>
+    <div id="scatter-chart-1">
+      <HighchartsReact
+        highcharts={Highcharts}
+        options={options}
+      ></HighchartsReact>
+    </div>
   );
 }
