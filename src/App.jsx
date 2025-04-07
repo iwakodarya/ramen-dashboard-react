@@ -6,9 +6,19 @@ import "./App.css";
 import raw_data from "./ramen-ratings.json";
 import RatingsHistogram from "./RatingsHistogram";
 import DataTable from "./DataTable";
+import Highcharts from "highcharts";
 
 function App() {
   const [data, setData] = useState([]);
+
+  Highcharts.setOptions({
+    chart: {
+      style: {
+        fontFamily: "Urbanist", // Set global font for chart content
+        fontSize: "18px", // Set global font size
+      },
+    },
+  });
 
   useEffect(() => {
     // Data cleaning
@@ -54,7 +64,7 @@ function App() {
 
   return (
     <div id="main-container">
-      <h2 id="header">Ramen Ratings Dashboard</h2>
+      <h1 id="header">Ramen Ratings Dashboard</h1>
       <MapChart data={aggByCountry} />
       <ScatterplotRatingVsCount data={aggByCountry} />
       <BarchartRatingByCountry data={aggByCountry} />

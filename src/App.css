@@ -1,16 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap");
+
 #root {
   width: 90%;
   max-width: 1600px;
   margin: 0 auto;
   text-align: center;
   margin-bottom: 100px;
+  font-family: "Urbanist", sans-serif;
 }
 
 #main-container {
   display: grid;
   height: 960px;
-  grid-template: 75px 400px 300px auto / 500px 500px 500px;
-  gap: 10px 10px;
+  grid-template: 75px 310px 260px auto / 550px 550px 500px;
+  gap: 30px 30px;
 }
 
 #header {

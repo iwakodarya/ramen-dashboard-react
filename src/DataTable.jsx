@@ -4,7 +4,7 @@ export default function DataTable({ data }) {
 
   return (
     <div id="table-1" className="styled-table">
-      <table border="1">
+      <table>
         <thead>
           <tr>
             <th>Variety</th>

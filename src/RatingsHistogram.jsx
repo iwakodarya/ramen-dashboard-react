@@ -27,6 +27,9 @@ export default function RatingsHistogram({ data }) {
             const pct = (this.y / data.length) * 100;
             return `${this.y}<br><i>(${pct.toFixed(0)}%)<i>`;
           },
+          style: {
+            fontSize: "12px",
+          },
         },
       },
     },
@@ -38,7 +41,7 @@ export default function RatingsHistogram({ data }) {
       title: { text: "Star Rating" },
       labels: {
         style: {
-          fontSize: "14px", // Change this value to your desired font size
+          fontSize: "16px", // Change this value to your desired font size
           fontWeight: "bold", // Optionally make it bold
         },
       },
@@ -63,7 +66,11 @@ export default function RatingsHistogram({ data }) {
 
   return (
     <div id="hist-chart-1">
-      <HighchartsReact highcharts={Highcharts} options={options} />
+      <HighchartsReact
+        highcharts={Highcharts}
+        options={options}
+        containerProps={{ style: { height: 320 } }}
+      />
     </div>
   );
 }

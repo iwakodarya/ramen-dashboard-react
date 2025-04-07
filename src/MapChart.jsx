@@ -34,7 +34,7 @@ export default function MapChart({ data }) {
       },
     },
     mapView: {
-      zoom: 2,
+      zoom: 2.5,
       center: [10, 58],
     },
     series: [
@@ -64,6 +64,7 @@ export default function MapChart({ data }) {
         highcharts={Highcharts}
         constructorType="mapChart"
         options={options}
+        containerProps={{ style: { height: 600 } }}
       />
     </div>
   );
