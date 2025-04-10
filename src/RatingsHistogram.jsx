@@ -69,7 +69,7 @@ export default function RatingsHistogram({ data }) {
       <HighchartsReact
         highcharts={Highcharts}
         options={options}
-        containerProps={{ style: { height: 320 } }}
+        containerProps={{ style: { height: 270 } }}
       />
     </div>
   );

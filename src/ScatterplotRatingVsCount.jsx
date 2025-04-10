@@ -1,13 +1,28 @@
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
-export default function ScatterplotRatingVsCount({ data }) {
+export default function ScatterplotRatingVsCount({
+  data,
+  highlightCountry,
+  onPointClick,
+  onPointHover,
+}) {
   // Transform into array of formatted object for chart input
   const chartData = Object.entries(data).map(([key, value]) => {
     return {
       x: Math.round(value.avg_rating * 10) / 10,
       y: value.count,
       label: key,
+      color: key === highlightCountry ? "#FFBF00" : "#895129",
+      dataLabels:
+        key === highlightCountry
+          ? {
+              enabled: true,
+              format: `{point.label}:<br>({point.x}, {point.y})`,
+            }
+          : {
+              enabled: false,
+            },
     };
   });
 
@@ -29,9 +44,7 @@ export default function ScatterplotRatingVsCount({ data }) {
       },
     },
     tooltip: {
-      headerFormat: "",
-      pointFormat:
-        "<b>{point.label}</b>:<br/>Avg Rating: {point.x}<br/>Count: {point.y}",
+      enabled: false,
     },
     title: {
       text: "Ramen Count vs Avg Ramen Rating",
@@ -56,7 +69,16 @@ export default function ScatterplotRatingVsCount({ data }) {
           symbol: "diamond",
         },
         data: chartData,
-        color: "#895129",
+        point: {
+          events: {
+            click: function () {
+              onPointClick(this.label);
+            },
+            mouseOver: function () {
+              onPointHover(this.label);
+            },
+          },
+        },
       },
     ],
   };

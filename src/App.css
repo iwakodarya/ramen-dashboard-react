@@ -12,7 +12,7 @@
 #main-container {
   display: grid;
   height: 960px;
-  grid-template: 75px 310px 260px auto / 550px 550px 500px;
+  grid-template: 75px 250px 250px auto / 550px 550px 500px;
   gap: 30px 30px;
 }
 

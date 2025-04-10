@@ -7,16 +7,16 @@ export default function DataTable({ data }) {
       <table>
         <thead>
           <tr>
+            <th>Brand</th>
             <th>Variety</th>
-            <th>Origin Country</th>
             <th>Star Rating</th>
           </tr>
         </thead>
         <tbody>
           {displayData.map((row) => (
             <tr key={row["Review #"]}>
-              <td>{row["Variety"]}</td>
-              <td>{row["Country"]}</td>
+              <td>{row["Brand"]}</td>
+              <td>{row["Variety"] + " (" + row["Style"] + ")"}</td>
               <td>{row["Stars"]}</td>
             </tr>
           ))}

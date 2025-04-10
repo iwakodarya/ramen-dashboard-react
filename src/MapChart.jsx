@@ -8,15 +8,34 @@ if (typeof MapModule === "function") {
   MapModule(Highcharts);
 }
 
-export default function MapChart({ data }) {
+export default function MapChart({
+  data,
+  highlightCountry,
+  onPointClick,
+  onPointHover,
+}) {
   const chartData = Object.entries(data).map(([key, value]) => {
-    if (key === "USA") {
-      key = "United States of America";
-    }
-    return { key, value: value.count };
+    return {
+      key,
+      value: value.count,
+      dataLabels:
+        key === highlightCountry
+          ? {
+              enabled: true,
+              format: `{point.key}: {point.value}`,
+            }
+          : {
+              enabled: false,
+            },
+      borderWidth: key === highlightCountry ? 2 : 0.5,
+      borderColor: key === highlightCountry ? "black" : "#cccccc",
+    };
   });
 
   const options = {
+    chart: {
+      animation: false,
+    },
     title: {
       text: "Ramen Varieties Count Map",
     },
@@ -24,8 +43,12 @@ export default function MapChart({ data }) {
       maxColor: "#FFBF00",
     },
     tooltip: {
-      headerFormat: "",
-      pointFormat: "<b>{point.key}</b>: {point.value}",
+      enabled: false,
+    },
+    plotOptions: {
+      series: {
+        animation: false,
+      },
     },
     mapNavigation: {
       enabled: true,
@@ -36,6 +59,7 @@ export default function MapChart({ data }) {
     mapView: {
       zoom: 2.5,
       center: [10, 58],
+      animation: false,
     },
     series: [
       {
@@ -45,13 +69,17 @@ export default function MapChart({ data }) {
         joinBy: ["name", "key"],
         dataLabels: {
           format: "{point.key}: {point.value:.0f}",
-          filter: {
-            operator: ">",
-            property: "labelrank",
-            value: 5,
-          },
-          style: {
-            fontWeight: "normal",
+        },
+        borderColor: "#cccccc", // fallback
+        borderWidth: 0.5, // fallback
+        point: {
+          events: {
+            click: function () {
+              onPointClick(this.key);
+            },
+            mouseOver: function () {
+              onPointHover(this.key);
+            },
           },
         },
       },
@@ -64,7 +92,7 @@ export default function MapChart({ data }) {
         highcharts={Highcharts}
         constructorType="mapChart"
         options={options}
-        containerProps={{ style: { height: 600 } }}
+        containerProps={{ style: { height: 500 } }}
       />
     </div>
   );

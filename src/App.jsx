@@ -10,6 +10,8 @@ import Highcharts from "highcharts";
 
 function App() {
   const [data, setData] = useState([]);
+  const [filteredCountry, setFilteredCountry] = useState(undefined);
+  const [highlightCountry, setHighlightCountry] = useState(undefined);
 
   Highcharts.setOptions({
     chart: {
@@ -24,8 +26,14 @@ function App() {
     // Data cleaning
     // 1) Remove "Unrated" entries
     const cleanRating = raw_data.filter((rating) => rating.Stars !== "Unrated");
+    // Clean up USA to be "United States of America"
+    const cleanUSA = cleanRating.map((rating) => {
+      return rating.Country === "USA"
+        ? { ...rating, Country: "United States of America" }
+        : rating;
+    });
     // 2) Filter for countries with >= 100 varieties produced
-    const countByCountry = cleanRating.reduce((acc, next) => {
+    const countByCountry = cleanUSA.reduce((acc, next) => {
       if (!acc[next.Country]) {
         acc[next.Country] = 1;
       } else {
@@ -36,7 +44,7 @@ function App() {
     const includeCountries = Object.entries(countByCountry)
       .filter(([_, count]) => count >= 100)
       .map(([country, _]) => country);
-    const filteredData = cleanRating.filter((rating) =>
+    const filteredData = cleanUSA.filter((rating) =>
       includeCountries.includes(rating.Country)
     );
 
@@ -62,14 +70,59 @@ function App() {
       aggByCountry[country].rating_sum / aggByCountry[country].count;
   });
 
+  console.log(aggByCountry["China"]);
+  console.log(aggByCountry);
+
   return (
     <div id="main-container">
-      <h1 id="header">Ramen Ratings Dashboard</h1>
-      <MapChart data={aggByCountry} />
-      <ScatterplotRatingVsCount data={aggByCountry} />
-      <BarchartRatingByCountry data={aggByCountry} />
-      <RatingsHistogram data={data} />
-      <DataTable data={data} />
+      <h1 id="header">
+        Ramen Ratings Dashboard, selected country: {filteredCountry || "None"}{" "}
+        hover country: {highlightCountry || "None"}
+      </h1>
+      <MapChart
+        data={
+          filteredCountry
+            ? { [filteredCountry]: aggByCountry[filteredCountry] }
+            : aggByCountry
+        }
+        highlightCountry={highlightCountry}
+        onPointClick={setFilteredCountry}
+        onPointHover={setHighlightCountry}
+      />
+      <ScatterplotRatingVsCount
+        data={
+          filteredCountry
+            ? { [filteredCountry]: aggByCountry[filteredCountry] }
+            : aggByCountry
+        }
+        highlightCountry={highlightCountry}
+        onPointClick={setFilteredCountry}
+        onPointHover={setHighlightCountry}
+      />
+      <BarchartRatingByCountry
+        data={
+          filteredCountry
+            ? { [filteredCountry]: aggByCountry[filteredCountry] }
+            : aggByCountry
+        }
+        highlightCountry={highlightCountry}
+        onPointClick={setFilteredCountry}
+        onPointHover={setHighlightCountry}
+      />
+      <RatingsHistogram
+        data={
+          filteredCountry
+            ? data.filter((item) => item.Country === filteredCountry)
+            : data
+        }
+      />
+      <DataTable
+        data={
+          filteredCountry
+            ? data.filter((item) => item.Country === filteredCountry)
+            : data
+        }
+      />
     </div>
   );
 }

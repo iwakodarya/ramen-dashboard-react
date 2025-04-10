@@ -1,13 +1,28 @@
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
-export default function BarchartRatingByCountry({ data }) {
+export default function BarchartRatingByCountry({
+  data,
+  highlightCountry,
+  onPointClick,
+  onPointHover,
+}) {
   // Transform into array of formatted object for chart input
   const chartData = Object.entries(data)
     .map(([key, value]) => {
       return {
         name: key,
         y: Math.round(value.avg_rating * 10) / 10,
+        color: highlightCountry === key ? "#FFBF00" : "#895129",
+        dataLabels:
+          key === highlightCountry
+            ? {
+                enabled: true,
+                format: `{point.y}`,
+              }
+            : {
+                enabled: false,
+              },
       };
     })
     .sort((a, b) => b.y - a.y);
@@ -16,21 +31,8 @@ export default function BarchartRatingByCountry({ data }) {
     chart: {
       type: "bar",
     },
-    plotOptions: {
-      bar: {
-        dataLabels: {
-          enabled: true, // Enable data labels
-          format: "{y}", // Show just the y value (rating)
-          align: "left", // Align to right inside the bar
-          style: {
-            fontWeight: "bold",
-          },
-        },
-      },
-    },
     tooltip: {
-      headerFormat: "",
-      pointFormat: "<b>{point.name}</b>:<br/>Avg Rating: {point.y}",
+      enabled: false,
     },
     title: {
       text: "Avg Ramen Rating by Country",
@@ -53,7 +55,16 @@ export default function BarchartRatingByCountry({ data }) {
     series: [
       {
         data: chartData,
-        color: "#895129",
+        point: {
+          events: {
+            click: function () {
+              onPointClick(this.key);
+            },
+            mouseOver: function () {
+              onPointHover(this.key);
+            },
+          },
+        },
       },
     ],
   };
