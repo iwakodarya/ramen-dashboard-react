@@ -1,5 +1,6 @@
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import { useRef, useEffect } from "react";
 
 export default function ScatterplotRatingVsCount({
   data,
@@ -7,6 +8,26 @@ export default function ScatterplotRatingVsCount({
   onPointClick,
   onPointHover,
 }) {
+  const chartRef = useRef(null);
+
+  // Set up highlighted country clearing on mouse move
+  useEffect(() => {
+    const chart = chartRef.current?.chart;
+    if (!chart) return;
+
+    const handleMouseMove = () => {
+      if (!chart.hoverPoint && highlightCountry !== undefined) {
+        onPointHover(undefined);
+      }
+    };
+
+    chart.container?.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      chart.container?.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, [highlightCountry]);
+
   // Transform into array of formatted object for chart input
   const chartData = Object.entries(data).map(([key, value]) => {
     return {
@@ -29,6 +50,13 @@ export default function ScatterplotRatingVsCount({
   const options = {
     chart: {
       type: "scatter",
+      events: {
+        click: function (e) {
+          if (!e.point) {
+            onPointClick(undefined);
+          }
+        },
+      },
     },
     plotOptions: {
       scatter: {
@@ -88,6 +116,7 @@ export default function ScatterplotRatingVsCount({
       <HighchartsReact
         highcharts={Highcharts}
         options={options}
+        ref={chartRef}
       ></HighchartsReact>
     </div>
   );

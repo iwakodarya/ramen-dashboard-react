@@ -2,6 +2,7 @@ import Highcharts, { chart } from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import mapData from "@highcharts/map-collection/custom/world.topo.json";
 import MapModule from "highcharts/modules/map";
+import { useEffect, useRef } from "react";
 
 // Initialize the Highcharts map module
 if (typeof MapModule === "function") {
@@ -14,6 +15,26 @@ export default function MapChart({
   onPointClick,
   onPointHover,
 }) {
+  const chartRef = useRef(null);
+
+  // Set up highlighted country clearing on mouse move
+  useEffect(() => {
+    const chart = chartRef.current?.chart;
+    if (!chart) return;
+
+    const handleMouseMove = () => {
+      if (!chart.hoverPoint && highlightCountry !== undefined) {
+        onPointHover(undefined);
+      }
+    };
+
+    chart.container?.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      chart.container?.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, [highlightCountry]);
+
   const chartData = Object.entries(data).map(([key, value]) => {
     return {
       key,
@@ -35,6 +56,13 @@ export default function MapChart({
   const options = {
     chart: {
       animation: false,
+      events: {
+        click: function (e) {
+          if (!e.point) {
+            onPointClick(undefined);
+          }
+        },
+      },
     },
     title: {
       text: "Ramen Varieties Count Map",
@@ -93,6 +121,7 @@ export default function MapChart({
         constructorType="mapChart"
         options={options}
         containerProps={{ style: { height: 500 } }}
+        ref={chartRef}
       />
     </div>
   );

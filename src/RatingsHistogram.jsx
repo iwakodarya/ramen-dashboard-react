@@ -1,7 +1,7 @@
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
-export default function RatingsHistogram({ data }) {
+export default function RatingsHistogram({ data, filteredCountry }) {
   // Manually calculate the histogram bins
   const bins = [0, 0, 0, 0, 0, 0]; // For 0-1, 1-2, 2-3, 3-4, 4-5, 5-6
 
@@ -35,6 +35,9 @@ export default function RatingsHistogram({ data }) {
     },
     title: {
       text: "Star Rating Distribution",
+    },
+    subtitle: {
+      text: filteredCountry && `Country: ${filteredCountry}`,
     },
     xAxis: {
       categories: ["0 ⭐️", "1 ⭐️", "2 ⭐️", "3 ⭐️", "4 ⭐️", "5 ⭐️"],

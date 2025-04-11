@@ -115,6 +115,7 @@ function App() {
             ? data.filter((item) => item.Country === filteredCountry)
             : data
         }
+        filteredCountry={filteredCountry}
       />
       <DataTable
         data={

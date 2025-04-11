@@ -1,5 +1,6 @@
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import { useEffect, useRef } from "react";
 
 export default function BarchartRatingByCountry({
   data,
@@ -7,6 +8,26 @@ export default function BarchartRatingByCountry({
   onPointClick,
   onPointHover,
 }) {
+  const chartRef = useRef(null);
+
+  // Set up highlighted country clearing on mouse move
+  useEffect(() => {
+    const chart = chartRef.current?.chart;
+    if (!chart) return;
+
+    const handleMouseMove = () => {
+      if (!chart.hoverPoint && highlightCountry !== undefined) {
+        onPointHover(undefined);
+      }
+    };
+
+    chart.container?.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      chart.container?.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, [highlightCountry]);
+
   // Transform into array of formatted object for chart input
   const chartData = Object.entries(data)
     .map(([key, value]) => {
@@ -30,6 +51,13 @@ export default function BarchartRatingByCountry({
   const options = {
     chart: {
       type: "bar",
+      events: {
+        click: function (e) {
+          if (!e.point) {
+            onPointClick(undefined);
+          }
+        },
+      },
     },
     tooltip: {
       enabled: false,
@@ -73,6 +101,7 @@ export default function BarchartRatingByCountry({
       <HighchartsReact
         highcharts={Highcharts}
         options={options}
+        ref={chartRef}
       ></HighchartsReact>
     </div>
   );
