@@ -75,10 +75,7 @@ function App() {
 
   return (
     <div id="main-container">
-      <h1 id="header">
-        Ramen Ratings Dashboard, selected country: {filteredCountry || "None"}{" "}
-        hover country: {highlightCountry || "None"}
-      </h1>
+      <h1 id="header">Ramen Ratings Dashboard</h1>
       <MapChart
         data={
           filteredCountry
