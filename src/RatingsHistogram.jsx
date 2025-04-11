@@ -34,10 +34,9 @@ export default function RatingsHistogram({ data, filteredCountry }) {
       },
     },
     title: {
-      text: "Star Rating Distribution",
-    },
-    subtitle: {
-      text: filteredCountry && `Country: ${filteredCountry}`,
+      text: `Star Rating Distribution ${
+        filteredCountry ? "(" + filteredCountry + ")" : "(all countries)"
+      }`,
     },
     xAxis: {
       categories: ["0 ⭐️", "1 ⭐️", "2 ⭐️", "3 ⭐️", "4 ⭐️", "5 ⭐️"],

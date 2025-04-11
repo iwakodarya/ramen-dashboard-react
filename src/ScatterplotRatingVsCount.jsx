@@ -75,7 +75,7 @@ export default function ScatterplotRatingVsCount({
       enabled: false,
     },
     title: {
-      text: "Ramen Count vs Avg Ramen Rating",
+      text: "Ramen Produced Count vs Avg Ramen Rating",
     },
     yAxis: {
       title: {

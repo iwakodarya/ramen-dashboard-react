@@ -65,7 +65,7 @@ export default function MapChart({
       },
     },
     title: {
-      text: "Ramen Varieties Count Map",
+      text: "Ramen Produced Count by Country",
     },
     colorAxis: {
       maxColor: "#FFBF00",
