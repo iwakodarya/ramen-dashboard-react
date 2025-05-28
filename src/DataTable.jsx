@@ -12,6 +12,7 @@ export default function DataTable({ data, filteredCountry }) {
         <table>
           <thead>
             <tr>
+              <th>Country</th>
               <th>Brand</th>
               <th>Variety</th>
               <th>Star Rating</th>
@@ -20,6 +21,7 @@ export default function DataTable({ data, filteredCountry }) {
           <tbody>
             {displayData.map((row) => (
               <tr key={row["Review #"]}>
+                <td>{row["Country"]}</td>
                 <td>{row["Brand"]}</td>
                 <td>{row["Variety"] + " (" + row["Style"] + ")"}</td>
                 <td>{row["Stars"]}</td>
